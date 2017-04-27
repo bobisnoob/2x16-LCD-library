@@ -1,12 +1,12 @@
 /*
 * File Name	 	 : LCD1602A.c
-* PROJECT		 : ST7006 16x2 LCD library
+* PROJECT		 : ST7006 2x16 LCD library
 * PROGRAMMERS	 	 : Abdel Alkuor
 * SECOND VERSION  	 : 2016-03-13
 * Description    	 : This library can be used to drive any 16x2 LCD
-			   it uses I2C protocol. The pins are connected as follows:
-			   SCL--->PA15
-			   SDA--->PA14
+			           it uses I2C protocol. The pins are connected as follows:
+		        	   SCL--->PA15
+			           SDA--->PA14
 
  						
 **/	
