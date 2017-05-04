@@ -1,70 +1,16 @@
-/*
+/**************************************************************
 * File Name	 	 : LCD1602A.c
 * PROJECT		 : ST7006 2x16 LCD library
 * PROGRAMMERS	 	 : Abdel Alkuor
 * SECOND VERSION  	 : 2016-03-13
 * Description    	 : This library can be used to drive any 16x2 LCD
-			           it uses I2C protocol. The pins are connected as follows:
+			           it uses I2C protocol. The pins are connected as folloing for STM32F3 discovery board:
 		        	   SCL--->PA15
 			           SDA--->PA14
-
- 						
-**/	
-
+						
+**************************************************************/	
 #include "LCD1602A.h"
 
-
-/* Commands */
-
-#define LCD1602A_CLEAR_DISPLAY				0x01
-#define LCD1602A_RETURN_HOME	 			0x02
-#define LCD1602A_ENTRY_MODE_SET 			0x04
-#define LCD1602A_DISPLAY_CONTROL 			0x08
-#define LCD1602A_CURSOR_DISPLAY_SHIFT		0x10
-#define LCD1602A_FUCNTION_SET				0x20
-#define LCD1602A_SET_CGRAM_ADDRESS			0x40		
-#define LCD1602A_SET_DDRAM_ADDRESS			0x80
-
-
-
-/* Entry Mode Set register bits */
-/* NOTE : Set the moving direction of cursor and display */
-
-#define LCD1602A_CURSOR_RIGHT			0x02  // Cursor/blink moves to right and DDRAM address is increased by 1
-#define LCD1602A_CURSOR_LEFT			0x00  // Cursor/blink moves to left and DDRAM address is decreased by 1
-#define LCD1602A_SHIFT_DISPLAY_LEFT		0x03  // shift the display to the left
-#define LCD1602A_SHIFT_DISPLAY_RIGHT	0x01  // shift the display to the right
-
-
-/* Display control register bits */
-
-#define LCD1602A_DISPLAY_ON				0x04 // entire display on			
-#define LCD1602A_DISPLAY_OFF			0x00 // entire display off
-#define LCD1602A_CURSOR_ON				0x02 // cursor is turned on
-#define LCD1602A_CURSOR_OFF				0x00 // cursor is turned off
-#define LCD1602A_CURSOR_BLINK_ON		0x01 // cursor blink is on	
-#define LCD1602A_CURSOR_BLINK_OFF		0x00 // cursor blink is off
-
-/* Cursor or Display shift */
-/* NOTE : Without writing or reading of display,shift right/left cursor position or display.
-      	  This instruction is used to correct or search display data.
-       	  When display shift is performed, the contents of address counter are not changed */
-
-#define LCD1602A_SHIFT_CURSOR_LEFT 		0x00 
-#define LCD1602A_SHIFT_CURSOR_RIGHT		0x04
-#define LCD1602A_SHIFTORDISPLAY_LEFT	0x08
-#define LCD1602A_SHIFTORDISPLAY_RIGHT	0x0F
-
-/* Set Function register bits */	
-	
-#define LCD1602A_8BIT_MODE 				0x10
-#define LCD1602A_4BIT_MODE 				0x00 // it needs to transfer 4-bit data by two times. MSB then LSB 
-#define LCD1602A_1LINE_DISPLAY			0x00
-#define LCD1602A_2LINE_DISPLAY			0x08
-#define LCD1602A_5x8DOTS_FORMAT			0x00
-#define LCD1602A_5x11DOTS_FORMAT		0x04 // ONLY FOR 1 LINE DISPLAY
-
-extern I2C_HandleTypeDef hi2c2;
 uint8_t buffer[1]={0};
 uint8_t portLCD=0;
 
@@ -106,11 +52,11 @@ void LCD1602A_Data(uint8_t data)
 {
 	sendByte(data, 1);
 }
-
-
-
-
-
+/* This function should be called in the main() function to initialize the
+* LCD display.
+* @param: numberOfline: To display one line choose either 1 or 0
+                        To display 2 lines choose number > 1
+*/
 void LCD1602A_init(uint8_t numberOfLine)
 {
 	HAL_Delay(15);
@@ -147,77 +93,87 @@ void LCD1602A_init(uint8_t numberOfLine)
 
 }
 
+/* this function is used to turn the display ON */
 void LCD1602A_DisplayOn(void)
 {
 	sendByte( LCD1602A_DISPLAY_CONTROL | LCD1602A_DISPLAY_ON, 0 );
 	HAL_Delay(10);
 }
-
+/* this function is used to turn the display OFF */
 void LCD1602A_DisplayOff(void)
 {
 	sendByte( LCD1602A_DISPLAY_CONTROL | LCD1602A_DISPLAY_OFF , 0);
 	HAL_Delay(10);
 }
-
+/* this function is used to have blinking cursor ON */
 void LCD1602A_BlinkOn(void)
 {
 	sendByte( LCD1602A_DISPLAY_CONTROL | LCD1602A_CURSOR_BLINK_ON, 0 );
 	HAL_Delay(10);
 }
 
+/* this function is used to have blinking cursor OFF */
 void LCD1602A_BlinkOff(void)
 {
 	sendByte( LCD1602A_DISPLAY_CONTROL | LCD1602A_CURSOR_BLINK_OFF | LCD1602A_DISPLAY_ON, 0);
 	HAL_Delay(10);
 }
 
+/* this function is used to turn the cursor OFF */
 void LCD1602A_CursorOff(void)
 {
 	sendByte( LCD1602A_DISPLAY_CONTROL | LCD1602A_CURSOR_OFF | LCD1602A_DISPLAY_ON, 0);
 	HAL_Delay(10);
 }
 
+/* This function is used to turn the cursor on */
 void LCD1602A_CursorOn(void)
 {
 	sendByte( LCD1602A_DISPLAY_CONTROL | LCD1602A_CURSOR_ON, 0 );
 	HAL_Delay(10);
 }
 
-
+/* This function is used to rotate the display left */
 void LCD1602A_RotateDisplayLeft(void)
 {
 	sendByte( LCD1602A_SHIFTORDISPLAY_LEFT | LCD1602A_CURSOR_DISPLAY_SHIFT, 0 );
 	HAL_Delay(10);
 }
 
+/* This function is used to rotate the display right*/
 void LCD1602A_RotateDisplayRight(void)
 {
 	sendByte( LCD1602A_SHIFTORDISPLAY_RIGHT | LCD1602A_CURSOR_DISPLAY_SHIFT, 0 );
 	HAL_Delay(10);
 }
 
+/* This function is used to shift the cursor left*/
 void LCD1602A_ShiftCursorLeft(void)
 {
 	sendByte( LCD1602A_SHIFT_CURSOR_LEFT | LCD1602A_CURSOR_DISPLAY_SHIFT, 0 );
 	HAL_Delay(10);
 }
-
+/* This function is used to shift the cursor right*/
 void LCD1602A_ShiftCursorRight(void)
 {
 	sendByte( LCD1602A_SHIFT_CURSOR_RIGHT | LCD1602A_CURSOR_DISPLAY_SHIFT , 0);
 	HAL_Delay(10);
 }
 
-
+/* This function is used to return the cursor at the beginning of the display*/
 void LCD1602A_ReturnHome (void)
 {
 	sendByte( LCD1602A_RETURN_HOME, 0 );
 	HAL_Delay(10);
 }
 
+/* This function is used to write on the LCD display on the first row*/
+/* @param: col: # between 0-15 to where to start writing
+           str: The string you would like to display on the LCD 
+*/
 void LCD1602A_WriteLineOne(uint8_t col, char *str)
 {	
-	sendByte( LCD1602A_SET_DDRAM_ADDRESS | col | 0x00, 0 );
+	sendByte( LCD1602A_SET_DDRAM_ADDRESS | col | 0x00, 0 );// 0x00 is the address of the first column in the first row
 	
 	while(*str)
 	{
@@ -227,9 +183,13 @@ void LCD1602A_WriteLineOne(uint8_t col, char *str)
 	
 }
 
+/* This function is used to write on the LCD display on the second row*/
+/* @param: col: # between 0-15 to where to start writing
+           str: The string you would like to display on the LCD 
+*/
 void LCD1602A_WriteLineTwo(uint8_t col, char *str)
 {
-	sendByte( LCD1602A_SET_DDRAM_ADDRESS | col  | 0x40, 0 );
+	sendByte( LCD1602A_SET_DDRAM_ADDRESS | col | 0x40, 0 );// 0x40 is the address of the first column in the second row
 	while(*str)
 	{
 		LCD1602A_Data( *str );
