@@ -11,14 +11,14 @@
 extern I2C_HandleTypeDef hi2c2;   
   
  /* Commands */
-#define LCD1602A_CLEAR_DISPLAY				0x01
-#define LCD1602A_RETURN_HOME	 			0x02
-#define LCD1602A_ENTRY_MODE_SET 			0x04
-#define LCD1602A_DISPLAY_CONTROL 			0x08
-#define LCD1602A_CURSOR_DISPLAY_SHIFT			0x10
-#define LCD1602A_FUCNTION_SET				0x20
-#define LCD1602A_SET_CGRAM_ADDRESS			0x40		
-#define LCD1602A_SET_DDRAM_ADDRESS			0x80
+#define LCD1602A_CLEAR_DISPLAY			0x01
+#define LCD1602A_RETURN_HOME	 		0x02
+#define LCD1602A_ENTRY_MODE_SET 		0x04
+#define LCD1602A_DISPLAY_CONTROL 		0x08
+#define LCD1602A_CURSOR_DISPLAY_SHIFT		0x10
+#define LCD1602A_FUCNTION_SET			0x20
+#define LCD1602A_SET_CGRAM_ADDRESS		0x40		
+#define LCD1602A_SET_DDRAM_ADDRESS		0x80
 
 /* Entry Mode Set register bits */
 /* NOTE : Set the moving direction of cursor and display */
