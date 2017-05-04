@@ -26,13 +26,13 @@ extern I2C_HandleTypeDef hi2c2;
 #define LCD1602A_CURSOR_RIGHT			0x02  // Cursor/blink moves to right and DDRAM address is increased by 1
 #define LCD1602A_CURSOR_LEFT			0x00  // Cursor/blink moves to left and DDRAM address is decreased by 1
 #define LCD1602A_SHIFT_DISPLAY_LEFT		0x03  // shift the display to the left
-#define LCD1602A_SHIFT_DISPLAY_RIGHT	0x01  // shift the display to the right
+#define LCD1602A_SHIFT_DISPLAY_RIGHT		0x01  // shift the display to the right
 /* Display control register bits */
 
-#define LCD1602A_DISPLAY_ON				0x04 // entire display on			
+#define LCD1602A_DISPLAY_ON			0x04 // entire display on			
 #define LCD1602A_DISPLAY_OFF			0x00 // entire display off
-#define LCD1602A_CURSOR_ON				0x02 // cursor is turned on
-#define LCD1602A_CURSOR_OFF				0x00 // cursor is turned off
+#define LCD1602A_CURSOR_ON			0x02 // cursor is turned on
+#define LCD1602A_CURSOR_OFF			0x00 // cursor is turned off
 #define LCD1602A_CURSOR_BLINK_ON		0x01 // cursor blink is on	
 #define LCD1602A_CURSOR_BLINK_OFF		0x00 // cursor blink is off
 
@@ -43,13 +43,13 @@ extern I2C_HandleTypeDef hi2c2;
 
 #define LCD1602A_SHIFT_CURSOR_LEFT 		0x00 
 #define LCD1602A_SHIFT_CURSOR_RIGHT		0x04
-#define LCD1602A_SHIFTORDISPLAY_LEFT	0x08
-#define LCD1602A_SHIFTORDISPLAY_RIGHT	0x0F
+#define LCD1602A_SHIFTORDISPLAY_LEFT		0x08
+#define LCD1602A_SHIFTORDISPLAY_RIGHT		0x0F
 
 /* Set Function register bits */	
 	
-#define LCD1602A_8BIT_MODE 				0x10
-#define LCD1602A_4BIT_MODE 				0x00 // it needs to transfer 4-bit data by two times. MSB then LSB 
+#define LCD1602A_8BIT_MODE 			0x10
+#define LCD1602A_4BIT_MODE 			0x00 // it needs to transfer 4-bit data by two times. MSB then LSB 
 #define LCD1602A_1LINE_DISPLAY			0x00
 #define LCD1602A_2LINE_DISPLAY			0x08
 #define LCD1602A_5x8DOTS_FORMAT			0x00
